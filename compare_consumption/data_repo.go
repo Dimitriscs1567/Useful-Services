@@ -18,3 +18,12 @@ func getCountries() ([]string, error) {
 
 	return res, nil
 }
+
+func getFuelPricesForCountry(country string) (*FuelPrices, error) {
+	res, err := database.GetItem[FuelPrices](database.FUELPRICES, map[string]interface{}{"country": country})
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}

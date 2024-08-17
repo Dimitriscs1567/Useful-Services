@@ -74,3 +74,15 @@ func GetMappedStringItems(collection string, key string) ([]string, error) {
 
 	return values, nil
 }
+
+func GetItem[T any](collection string, filter map[string]interface{}) (*T, error) {
+	db := GetDatabase()
+
+	var item *T
+	err := db.Collection(collection).FindOne(context.TODO(), filter).Decode(&item)
+	if err != nil {
+		return item, err
+	}
+
+	return item, nil
+}

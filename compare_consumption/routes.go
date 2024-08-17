@@ -6,4 +6,5 @@ func RegisterRoutes(server *gin.Engine) {
 	server.GET("compare_consumption/fill_prices", fillPrices)
 	server.GET("compare_consumption/get_supported_countries", getSupportedCountries)
 	server.POST("compare_consumption/compare_consumption", compareConsumption)
+	server.POST("compare_consumption/get_country_prices", getCountryPrices)
 }

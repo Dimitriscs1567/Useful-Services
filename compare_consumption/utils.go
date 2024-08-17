@@ -188,6 +188,12 @@ func getFuelPrices() []*FuelPrices {
 func GetFuelComparison(data *CompareConsumptionBody) *CompareConsumptionResponse {
 	var responseConsumption float64
 
+	if data.ElectricityPrice == 0 || data.GasPrice == 0 {
+		return &CompareConsumptionResponse{
+			L100kmTokwh100km: 0,
+		}
+	}
+
 	gasMoney := data.GasPrice
 	responseConsumption = math.Round((gasMoney/data.ElectricityPrice)*1000) / 1000
 
