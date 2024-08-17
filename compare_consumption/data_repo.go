@@ -5,7 +5,16 @@ import (
 )
 
 func updateFuelPrices(fuel_prices *FuelPrices) error {
-	err := database.GetAndUpdateOrAddItem(database.FUELPRICES, fuel_prices.toJson(), map[string]interface{}{"country": fuel_prices.Country})
+	err := database.UpdateOrAddItem(database.FUELPRICES, fuel_prices.toJson(), map[string]interface{}{"country": fuel_prices.Country})
 
 	return err
+}
+
+func getCountries() ([]string, error) {
+	res, err := database.GetMappedStringItems(database.FUELPRICES, "country")
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
 }

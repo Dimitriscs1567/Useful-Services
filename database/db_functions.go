@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func GetAndUpdateOrAddItem(collection string, item map[string]interface{}, filter map[string]interface{}) error {
+func UpdateOrAddItem(collection string, item map[string]interface{}, filter map[string]interface{}) error {
 	db := GetDatabase()
 	dbFilter := bson.D{}
 
@@ -52,4 +52,25 @@ func GetAndUpdateOrAddItem(collection string, item map[string]interface{}, filte
 	}
 
 	return nil
+}
+
+func GetMappedStringItems(collection string, key string) ([]string, error) {
+	db := GetDatabase()
+	collected, err := db.Collection(collection).Find(context.TODO(), bson.D{})
+	if err != nil {
+		return nil, err
+	}
+
+	var items []bson.M
+	err = collected.All(context.TODO(), &items)
+	if err != nil {
+		return nil, err
+	}
+
+	values := []string{}
+	for _, item := range items {
+		values = append(values, item[key].(string))
+	}
+
+	return values, nil
 }

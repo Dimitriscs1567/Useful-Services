@@ -38,3 +38,13 @@ func compareConsumption(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, GetFuelComparison(&body))
 }
+
+func getSupportedCountries(ctx *gin.Context) {
+	res, err := getCountries()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, res)
+}
